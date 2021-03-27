@@ -1,9 +1,15 @@
 server:
   port: 8081
 
+paginacao:
+  qtd_por_pagina: 25
+
 spring:
   application:
     name: 'post'
+  data:
+    mongodb:
+      database: kotlin
 
 eureka:
   client:
