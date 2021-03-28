@@ -4,6 +4,7 @@ import com.possenti.post.documents.Post
 import com.possenti.post.dtos.PostDto
 import com.possenti.post.response.Response
 import com.possenti.post.services.PostService
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -20,6 +21,8 @@ class PostController(val postService: PostService) {
     @Value("\${paginacao.qtd_por_pagina}")
     val qtdPorPagina: Int = 15
 
+    val LOGGER = LoggerFactory.getLogger(PostController::class.java)
+
     @PostMapping
     fun save(@Valid @RequestBody postDto: PostDto): ResponseEntity<String> {
 
@@ -35,6 +38,8 @@ class PostController(val postService: PostService) {
             @RequestParam(value = "dir", defaultValue = "DESC") dir: String,
             @PathVariable("user_id") userId: String):
             ResponseEntity<List<PostDto>> {
+
+        LOGGER.info("getting all posts from the user: $userId")
 
         val pageRequest: PageRequest = PageRequest.of(pag, qtdPorPagina, Sort.Direction.valueOf(dir), ord)
         val users = postService.findByUserId(userId, pageRequest)
