@@ -27,6 +27,7 @@ class PostController(val postService: PostService) {
     fun save(@Valid @RequestBody postDto: PostDto): ResponseEntity<String> {
 
         val post = turnDtoToPost(postDto)
+
         val postDb = postService.save(post)
 
         return ResponseEntity.ok(postDb.id)
