@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/api/post/posts")
+@RequestMapping("/posts")
 class PostController(val postService: PostService) {
 
     @Value("\${paginacao.qtd_por_pagina}")
