@@ -1,10 +1,7 @@
 package com.possenti.post.controller
 
-import com.possenti.post.dtos.ReactionSaveDto
-import com.possenti.post.services.PostService
-import com.possenti.post.services.ReactionService
-import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
+import com.possenti.post.dto.ReactionSaveDto
+import com.possenti.post.service.ReactionService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -21,6 +18,15 @@ class ReactionController(val reactionService: ReactionService) {
 
         return ResponseEntity.ok(postDb.id)
     }
+
+//    @DeleteMapping("/{user_id}")
+//    fun delete(@PathVariable("post_id") postId: String,
+//               @PathVariable("user_id") userId: String) {
+//        reactionService.save(reactionSaveDto, postId, userId)
+//
+//        return ResponseEntity.ok(postDb.id)
+//    }
+
 //
 //    @GetMapping("/{user_id}")
 //    fun get(@RequestParam(value = "pag", defaultValue = "0") pag: Int,

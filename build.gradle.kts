@@ -11,11 +11,15 @@ group = "com.possenti"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
+
+
 repositories {
 	mavenCentral()
 }
 
 extra["springCloudVersion"] = "2020.0.2"
+extra["retrofitVersion"] = "2.5.0"
+
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
@@ -35,6 +39,12 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.boot:spring-boot-test")
+
+	implementation("com.squareup.retrofit2:retrofit:${property("retrofitVersion")}")
+	implementation("com.squareup.retrofit2:converter-gson:${property("retrofitVersion")}")
+	implementation("com.squareup.retrofit2:converter-jackson:${property("retrofitVersion")}")
+	implementation("com.squareup.okhttp3:okhttp:3.14.1")
 }
 
 dependencyManagement {

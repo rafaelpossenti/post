@@ -1,8 +1,8 @@
-package com.possenti.post.services
+package com.possenti.post.service
 
-import com.possenti.post.documents.Reaction
-import com.possenti.post.dtos.ReactionSaveDto
-import com.possenti.post.repositories.ReactionRepository
+import com.possenti.post.document.Reaction
+import com.possenti.post.dto.ReactionSaveDto
+import com.possenti.post.repository.ReactionRepository
 import org.springframework.stereotype.Service
 
 @Service

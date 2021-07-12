@@ -1,7 +1,6 @@
-package com.possenti.post.repositories
+package com.possenti.post.repository
 
-import com.possenti.post.documents.Post
-import org.springframework.data.domain.Page
+import com.possenti.post.document.Post
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.mongodb.repository.MongoRepository
 
