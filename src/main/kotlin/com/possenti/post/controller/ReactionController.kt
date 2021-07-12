@@ -1,52 +1,51 @@
 package com.possenti.post.controller
 
+import com.possenti.post.document.Reaction
+import com.possenti.post.dto.PostDto
 import com.possenti.post.dto.ReactionSaveDto
 import com.possenti.post.service.ReactionService
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Sort
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/reactions/{post_id}")
+@RequestMapping("/reactions")
 class ReactionController(val reactionService: ReactionService) {
 
-    @PostMapping("/{user_id}")
+    @Value("\${paginacao.qtd_por_pagina}")
+    val qtdPorPagina: Int = 15
+
+    @PostMapping("/{post_id}")
     fun save(@Valid @RequestBody reactionSaveDto: ReactionSaveDto,
              @PathVariable("post_id") postId: String,
-             @PathVariable("user_id") userId: String): ResponseEntity<String> {
-        val postDb = reactionService.save(reactionSaveDto, postId, userId)
+             @RequestHeader("x-user-email") userEmail: String): ResponseEntity<String> {
+        val postDb = reactionService.save(reactionSaveDto, postId, userEmail)
 
         return ResponseEntity.ok(postDb.id)
     }
 
-//    @DeleteMapping("/{user_id}")
-//    fun delete(@PathVariable("post_id") postId: String,
-//               @PathVariable("user_id") userId: String) {
-//        reactionService.save(reactionSaveDto, postId, userId)
-//
-//        return ResponseEntity.ok(postDb.id)
-//    }
+    @DeleteMapping("/{reaction_id}")
+    fun delete(@PathVariable("reaction_id") reactionId: String) : ResponseEntity<String> {
+        reactionService.delete(reactionId)
+        return ResponseEntity.ok().build()
+    }
 
-//
-//    @GetMapping("/{user_id}")
-//    fun get(@RequestParam(value = "pag", defaultValue = "0") pag: Int,
-//            @RequestParam(value = "ord", defaultValue = "id") ord: String,
-//            @RequestParam(value = "dir", defaultValue = "DESC") dir: String,
-//            @PathVariable("user_id") userId: String):
-//            ResponseEntity<List<PostDto>> {
-//
-//        LOGGER.info("getting all posts from the user: $userId")
-//
-//        val pageRequest: PageRequest = PageRequest.of(pag, qtdPorPagina, Sort.Direction.valueOf(dir), ord)
-//        val users = postService.findByUserId(userId, pageRequest)
-//
-//        val usersDto = users.map { post -> turnPostDto(post) }
-//
-//        return ResponseEntity(usersDto, HttpStatus.OK)
-//    }
-//
-//
-//
-//    private fun turnPostDto(post: Post) =
-//            PostDto(post.text, post.userId, post.id)
+    @GetMapping("/{post_id}")
+    fun findAllByPost(@RequestParam(value = "pag", defaultValue = "0") pag: Int,
+                      @RequestParam(value = "ord", defaultValue = "id") ord: String,
+                      @RequestParam(value = "dir", defaultValue = "DESC") dir: String,
+                      @PathVariable("post_id") postId: String,):
+            ResponseEntity<List<Reaction>> {
+
+        val pageRequest: PageRequest = PageRequest.of(pag, qtdPorPagina, Sort.Direction.valueOf(dir), ord)
+        val reactions = reactionService.findByPostId(postId, pageRequest)
+
+        return ResponseEntity(reactions, HttpStatus.OK)
+    }
+
+
 }

@@ -13,21 +13,32 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
-class PostService(
-        val postRepository: PostRepository,
-        val userComponent: UserComponent
-) {
+class PostService(val postRepository: PostRepository) {
 
-    fun save(postSaveDto: PostSaveDto): Post {
-        userComponent.validateWhetherUserExists(postSaveDto.userId!!)
-
-        val post = turnPostSaveDtoToPost(postSaveDto)
+    fun save(postSaveDto: PostSaveDto, userEmail: String): Post {
+        val post = turnPostSaveDtoToPost(postSaveDto, userEmail)
         return postRepository.save(post)
     }
 
+    fun update(postSaveDto: PostSaveDto, postId: String): Post {
+        val postDb = this.findById(postId)
+        postDb.text = postSaveDto.text
+        return postRepository.save(postDb)
+    }
+
+    fun delete(postId: String) {
+        this.findById(postId)
+        postRepository.deleteById(postId)
+    }
+
+    fun findById(postId: String) = postRepository.findById(postId).orElseThrow { PostNotFoundException() }
+
     fun findByUserId(userId: String, pageRequest: PageRequest) = postRepository.findByUserId(userId, pageRequest)
 
-    private fun turnPostSaveDtoToPost(postSaveDto: PostSaveDto): Post =
-            Post(postSaveDto.text, postSaveDto.userId, null)
+    private fun turnPostSaveDtoToPost(postSaveDto: PostSaveDto, userEmail: String): Post =
+            Post(postSaveDto.text, userEmail, null)
+
+
+
 
 }
