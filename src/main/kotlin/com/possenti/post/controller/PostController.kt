@@ -42,9 +42,10 @@ class PostController(val postService: PostService) {
 
     @PutMapping("/{post_id}")
     fun update(@Valid @RequestBody postSaveDto: PostSaveDto,
-               @PathVariable("post_id") postId: String): ResponseEntity<String> {
+               @PathVariable("post_id") postId: String,
+               @RequestHeader("x-user-email") userEmail: String): ResponseEntity<String> {
 
-        val postDb = postService.update(postSaveDto, postId)
+        val postDb = postService.update(postSaveDto, postId, userEmail)
 
         return ResponseEntity.ok(postDb.id)
     }
