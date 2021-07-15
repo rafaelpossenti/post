@@ -15,6 +15,8 @@ class ReactionService (val reactionRepository: ReactionRepository, val postServi
 
         postService.findById(postId)
 
+        //TODO: Create a message to an kafka Topic, telling that a new reaction was made in his post with: userId/reactionType of who reacts
+
         val reaction = turnPostSaveDtoToPost(reactionSaveDto, postId, userId)
         return reactionRepository.save(reaction)
     }

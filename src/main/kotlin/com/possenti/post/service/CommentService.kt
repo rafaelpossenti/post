@@ -15,6 +15,8 @@ class CommentService(val commentRepository: CommentRepository, val postService: 
 
         postService.findById(postId)
 
+        //TODO: Create a message to an kafka Topic, telling that a new comment was made in his post with: userId/text of who comments
+
         val comment = turnCommentSaveDtoToComment(commentSaveDto, postId, userId)
         return commentRepository.save(comment)
     }
