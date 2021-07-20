@@ -3,7 +3,7 @@ package com.possenti.post.service
 import com.possenti.post.document.Post
 import com.possenti.post.dto.PostSaveDto
 import com.possenti.post.repository.PostRepository
-import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
@@ -32,7 +32,7 @@ class PostService(val postRepository: PostRepository) {
 
     fun findById(postId: String) = postRepository.findById(postId).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Post inexistente.") }
 
-    fun findByUserId(userId: String, pageRequest: PageRequest) = postRepository.findByUserId(userId, pageRequest)
+    fun findByUserId(userId: String, pageable: Pageable) = postRepository.findByUserId(userId, pageable)
 
     private fun turnPostSaveDtoToPost(postSaveDto: PostSaveDto, userEmail: String): Post =
             Post(postSaveDto.text, userEmail, null)

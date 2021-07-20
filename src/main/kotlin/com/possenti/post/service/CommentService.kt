@@ -3,7 +3,7 @@ package com.possenti.post.service
 import com.possenti.post.document.Comment
 import com.possenti.post.dto.CommentSaveDto
 import com.possenti.post.repository.CommentRepository
-import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
@@ -37,7 +37,7 @@ class CommentService(val commentRepository: CommentRepository, val postService: 
 
     fun findById(commentId: String) = commentRepository.findById(commentId).orElseThrow { ResponseStatusException(HttpStatus.NOT_FOUND, "Comentário inexistente.") }
 
-    fun findByPostId(postId: String, pageRequest: PageRequest) = commentRepository.findByPostId(postId, pageRequest)
+    fun findByPostId(postId: String, pageable: Pageable) = commentRepository.findByPostId(postId, pageable)
 
     private fun turnCommentSaveDtoToComment(commentSaveDto: CommentSaveDto, postId: String, userId: String): Comment =
             Comment(commentSaveDto.text, postId, userId, null)
