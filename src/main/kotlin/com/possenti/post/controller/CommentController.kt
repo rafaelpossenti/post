@@ -44,6 +44,7 @@ class CommentController(val commentService: CommentService) {
     }
 
     @GetMapping("/{post_id}")
+    @CrossOrigin
     fun findAllByPost(
         @PathVariable("post_id") postId: String,
         pageable: Pageable

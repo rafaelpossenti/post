@@ -1,0 +1,38 @@
+version: '2'
+services:
+#  eureka:
+#    image: eureka:latest
+#    networks:
+#      - smartnet
+##    entrypoint: ["./wait-for-it.sh","config-server:8888","--timeout=60","--","java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+#    environment:
+#      - "JAVA_OPTS=-DEUREKA_SERVER=http://eureka:8761/eureka"
+#    ports:
+#      - 8761:8761
+  config:
+    image: config-server:latest
+    networks:
+      - smartnet
+    environment:
+      - "JAVA_OPTS=-DEUREKA_SERVER=http://eureka:8761/eureka"
+#    depends_on:
+#      - eureka
+    ports:
+      - 8888:8888
+  post-4:
+    image: post-4:latest
+    networks:
+      - smartnet
+    entrypoint: ["./wait-for-it.sh","config:8888","--timeout=60","--","java","-jar","/post-0.0.1-SNAPSHOT.jar"]
+    environment:
+      - "JAVA_OPTS=-DEUREKA_SERVER=http://eureka:8761/eureka"
+    depends_on:
+      - config
+#      - eureka
+    ports:
+      - 8081:8081
+
+
+networks:
+  smartnet:
+    driver: bridge

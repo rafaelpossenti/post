@@ -52,6 +52,7 @@ dependencies {
 	implementation("com.squareup.retrofit2:converter-gson:${property("retrofitVersion")}")
 	implementation("com.squareup.retrofit2:converter-jackson:${property("retrofitVersion")}")
 	implementation("com.squareup.okhttp3:okhttp:3.14.1")
+
 }
 
 dependencyManagement {

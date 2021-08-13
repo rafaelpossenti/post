@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document
 data class Post (
+        var image: String? = null,
         var text: String? = null,
         val userId: String? = null,
         @Id val id: String? = null

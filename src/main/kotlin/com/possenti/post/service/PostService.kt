@@ -37,7 +37,7 @@ class PostService(val postRepository: PostRepository) {
     private fun turnPostSaveDtoToPost(postSaveDto: PostSaveDto, userEmail: String): Post =
             Post(postSaveDto.text, userEmail, null)
 
-
+    fun findAll(pageable: Pageable) = postRepository.findAll(pageable)
 
 
 }

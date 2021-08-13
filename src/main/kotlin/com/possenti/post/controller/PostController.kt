@@ -49,7 +49,7 @@ class PostController(val postService: PostService) {
         return ResponseEntity.ok(post)
     }
 
-    @GetMapping
+    @GetMapping("/users")
     fun findAllByUser(@RequestHeader("x-user-email") userEmail: String,
                       pageable: Pageable):
             ResponseEntity<Page<PostDto>> {
@@ -63,6 +63,20 @@ class PostController(val postService: PostService) {
         return ResponseEntity(usersDto, HttpStatus.OK)
     }
 
+    //TODO: remove in the future, turn to a friendship mode
+    @CrossOrigin
+    @GetMapping
+    fun findAll(pageable: Pageable):
+            ResponseEntity<Page<PostDto>> {
+
+        log.info("getting all posts")
+
+        val users = postService.findAll(pageable)
+
+        val usersDto = users.map { post -> turnPostDto(post) }
+
+        return ResponseEntity(usersDto, HttpStatus.OK)
+    }
 
     private fun turnPostDto(post: Post) =
             PostDto(post.text, post.userId, post.id)
